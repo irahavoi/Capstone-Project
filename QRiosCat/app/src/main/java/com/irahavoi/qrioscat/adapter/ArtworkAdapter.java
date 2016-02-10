@@ -1,6 +1,5 @@
 package com.irahavoi.qrioscat.adapter;
 
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.irahavoi.qrioscat.R;
  * Exposes a list of artworks.
  * from {@link android.database.Cursor} to  {@link android.support.v7.widget.RecyclerView}
  */
-public class ArtworkAdapter extends RecyclerView.ViewHolder<ArtworkAdapter.ArtworkAdapterViewHolder{
+public class ArtworkAdapter extends RecyclerView.ViewHolder{
 
     Cursor mCursor;
 
