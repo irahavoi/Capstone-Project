@@ -9,6 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -49,5 +53,15 @@ public class ArtWorkListActivityFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == BarcodeCaptureActivity.CAPTURE_BARCODE_REQUEST && CommonStatusCodes.SUCCESS == resultCode && data != null){
+            Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+            Toast.makeText(getActivity(), barcode.rawValue, Toast.LENGTH_LONG).show();
+        } else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
