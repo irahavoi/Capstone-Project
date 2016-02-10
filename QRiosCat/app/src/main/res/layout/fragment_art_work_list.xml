@@ -50,7 +50,7 @@
         android:text="@string/empty_artworks_list"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/startScanButton"
+        android:id="@+id/start_scan_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/qr"

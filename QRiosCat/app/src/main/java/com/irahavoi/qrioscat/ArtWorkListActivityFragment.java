@@ -1,7 +1,9 @@
 package com.irahavoi.qrioscat;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
  */
 public class ArtWorkListActivityFragment extends Fragment {
     private  RecyclerView mRecyclerView;
+    private FloatingActionButton mStartScanButton;
 
 
     public ArtWorkListActivityFragment() {
@@ -34,6 +37,15 @@ public class ArtWorkListActivityFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
 
+        mStartScanButton =  (FloatingActionButton) rootView.findViewById(R.id.start_scan_button);
+
+        mStartScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent captureBarcode = new Intent(getActivity(), BarcodeCaptureActivity.class);
+                startActivityForResult(captureBarcode, BarcodeCaptureActivity.CAPTURE_BARCODE_REQUEST);
+            }
+        });
 
 
         return rootView;
