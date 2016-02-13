@@ -59,7 +59,9 @@ public class ArtWorkListActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == BarcodeCaptureActivity.CAPTURE_BARCODE_REQUEST && CommonStatusCodes.SUCCESS == resultCode && data != null){
             Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-            Toast.makeText(getActivity(), barcode.rawValue, Toast.LENGTH_LONG).show();
+
+            getActivity().setProgressBarIndeterminate();
+            Toast.makeText(getActivity(), barcode.url.toString(), Toast.LENGTH_LONG).show();
         } else{
             super.onActivityResult(requestCode, resultCode, data);
         }
