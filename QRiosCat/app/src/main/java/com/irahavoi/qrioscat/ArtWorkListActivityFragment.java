@@ -135,8 +135,5 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI, contentValues);
 
-        Toast.makeText(getActivity().getBaseContext(),
-                uri.toString(), Toast.LENGTH_LONG).show();
-
     }
 }
