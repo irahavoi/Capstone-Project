@@ -24,6 +24,12 @@ public class ArtworkProvider extends ContentProvider {
 
     public static final Uri CONTENT_URI = Uri.parse(URL);
 
+    public static final int COL_ID = 0;
+    public static final int COL_NAME = 1;
+    public static final int COL_AUTHOR = 2;
+    public static final int COL_DESCRIPTION = 3;
+    public static final int COL_IMAGE_URL = 4;
+
     public static final String _ID = "_id";
     public static final String NAME = "name";
     public static final String AUTHOR = "author";

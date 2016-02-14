@@ -57,7 +57,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/recyclerview_artworklist"
         app:layout_anchorGravity="bottom|right|end"
-        android:elevation="4dp"/>
+        app:borderWidth="0dp"
+        android:elevation="10dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
 

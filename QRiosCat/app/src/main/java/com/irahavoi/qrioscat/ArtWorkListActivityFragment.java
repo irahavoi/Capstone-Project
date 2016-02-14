@@ -3,6 +3,7 @@ package com.irahavoi.qrioscat;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.irahavoi.qrioscat.adapter.ArtworkAdapter;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
 
 import java.io.IOException;
@@ -31,6 +33,7 @@ import retrofit.RxJavaCallAdapterFactory;
  * A placeholder fragment containing a simple view.
  */
 public class ArtWorkListActivityFragment extends Fragment {
+    private ArtworkAdapter mArtworkAdapter;
     private  RecyclerView mRecyclerView;
     private FloatingActionButton mStartScanButton;
 
@@ -50,6 +53,15 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         View emptyPlaceholder = rootView.findViewById(R.id.empty_artworks_list);
 
+        mArtworkAdapter = new ArtworkAdapter(getActivity(), new ArtworkAdapter.ArtworkAdapterOnClickHandler() {
+            @Override
+            public void onClick() {
+                //TODO;
+            }
+        }, emptyPlaceholder);
+
+        mRecyclerView.setAdapter(mArtworkAdapter);
+
         //We know that the size of the recycler view is not going to change. The following improves performance.
         mRecyclerView.setHasFixedSize(true);
 
@@ -63,6 +75,8 @@ public class ArtWorkListActivityFragment extends Fragment {
                 startActivityForResult(captureBarcode, BarcodeCaptureActivity.CAPTURE_BARCODE_REQUEST);
             }
         });
+
+        getArtworks();
 
 
         return rootView;
@@ -134,6 +148,14 @@ public class ArtWorkListActivityFragment extends Fragment {
         contentValues.put(ArtworkProvider.IMAGE_URL, artwork.getImageUrl());
 
         Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI, contentValues);
+
+    }
+
+    private void getArtworks(){
+        Cursor cursor = getActivity().getContentResolver().query(ArtworkProvider.CONTENT_URI, null, null, null, null);
+
+        mArtworkAdapter.swapCursor(cursor);
+        //cursor.close();
 
     }
 }
