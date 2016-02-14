@@ -7,6 +7,7 @@ public class Artwork {
     String name;
     String author;
     String description;
+    String imageUrl;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class Artwork {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
