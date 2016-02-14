@@ -1,7 +1,9 @@
 package com.irahavoi.qrioscat;
 
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.irahavoi.qrioscat.data.ArtworkProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,7 +112,10 @@ public class ArtWorkListActivityFragment extends Fragment {
                 Call<Artwork> call = webService.getArtwork(artworkId);
 
                 try{
-                    artworks.add(call.execute().body());
+                    Artwork artwork = call.execute().body();
+                    saveArtwork(artwork);
+                    artworks.add(artwork);
+
                 } catch (IOException e){
                     Toast.makeText(getActivity(), "Error occurred when trying to contact the server", Toast.LENGTH_LONG).show();
                 }
@@ -117,5 +123,20 @@ public class ArtWorkListActivityFragment extends Fragment {
 
             return artworks;
         }
+    }
+
+    private void saveArtwork(Artwork artwork){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ArtworkProvider.NAME, artwork.getName());
+        contentValues.put(ArtworkProvider.AUTHOR, artwork.getAuthor());
+        contentValues.put(ArtworkProvider.DESCRIPTION, artwork.getDescription());
+        contentValues.put(ArtworkProvider.IMAGE_URL, artwork.getImageUrl());
+
+        Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI, contentValues);
+
+        Toast.makeText(getActivity().getBaseContext(),
+                uri.toString(), Toast.LENGTH_LONG).show();
+
     }
 }

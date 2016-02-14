@@ -22,13 +22,13 @@ public class ArtworkProvider extends ContentProvider {
     static final String  PROVIDER_NAME = "com.irahavoi.qrioscat.data.ArtworkProvider";
     static final String URL = "content://" + PROVIDER_NAME + "/artworks";
 
-    static final Uri CONTENT_URI = Uri.parse(URL);
+    public static final Uri CONTENT_URI = Uri.parse(URL);
 
-    static final String _ID = "_id";
-    static final String NAME = "name";
-    static final String AUTHOR = "author";
-    static final String DESCRIPTION = "description";
-    static final String IMAGE_URL = "imageUrl";
+    public static final String _ID = "_id";
+    public static final String NAME = "name";
+    public static final String AUTHOR = "author";
+    public static final String DESCRIPTION = "description";
+    public static final String IMAGE_URL = "imageUrl";
 
     private static Map<String, String> ARTWORKS_PROJECTION_MAP;
 

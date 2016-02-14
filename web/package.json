@@ -1,0 +1,20 @@
+{
+  "name": "qrios",
+  "version": "1.0.0",
+  "description": "Prototype for qrios web service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "qrios",
+    "qr",
+    "arworks",
+    "android"
+  ],
+  "author": "Illia Rahavoi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
