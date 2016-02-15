@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.irahavoi.qrioscat.R;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
+import com.pkmmte.view.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 /**
  * Exposes a list of artworks.
@@ -24,15 +26,29 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
     final private View mEmptyView;
 
     public class ArtworkAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public final ImageView mIconView;
+        public Long id;
+        public final CircularImageView mImageView;
         public final TextView mName;
         public final TextView mAuthor;
+        public final ImageView mDelete;
 
         public ArtworkAdapterViewHolder(View itemView) {
             super(itemView);
-            mIconView = (ImageView) itemView.findViewById(R.id.list_icon);
+            mImageView = (CircularImageView) itemView.findViewById(R.id.list_icon);
             mName = (TextView) itemView.findViewById(R.id.artwork_name);
             mAuthor = (TextView) itemView.findViewById(R.id.artwork_author);
+            mDelete = (ImageView) itemView.findViewById(R.id.delete_artwork);
+
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.getContentResolver().delete(ArtworkProvider.CONTENT_URI, "_ID = ?",
+                            new String[]{String.valueOf(id)});
+
+                    ArtworkAdapter.this.notifyItemRemoved(ArtworkAdapterViewHolder.this.getAdapterPosition());
+                }
+            });
+
             itemView.setOnClickListener(this);
         }
 
@@ -71,7 +87,13 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
     public void onBindViewHolder(ArtworkAdapterViewHolder artworkAdapterViewHolder, int position) {
         mCursor.moveToPosition(position);
 
+        artworkAdapterViewHolder.id = mCursor.getLong(ArtworkProvider.COL_ID);
         artworkAdapterViewHolder.mAuthor.setText(mCursor.getString(ArtworkProvider.COL_AUTHOR));
+        artworkAdapterViewHolder.mName.setText(mCursor.getString(ArtworkProvider.COL_NAME));
+
+        Picasso.with(mContext).load(mCursor.getString(ArtworkProvider.COL_IMAGE_URL))
+                .into(artworkAdapterViewHolder.mImageView);
+
     }
 
     @Override

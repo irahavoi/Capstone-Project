@@ -114,8 +114,8 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Artwork> artworks){
-            //TODO: temp
             Toast.makeText(getActivity(), artworks.get(0).getName(), Toast.LENGTH_LONG).show();
+            getArtworks();
         }
 
         @Override
