@@ -53,13 +53,14 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
 
         @Override
         public void onClick(View view) {
-            mCursor.moveToPosition(getAdapterPosition());
-            //TODO: implement me
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
+            mClickHandler.onClick(mCursor.getLong(ArtworkProvider.COL_ID), this);
         }
     }
 
     public interface ArtworkAdapterOnClickHandler{
-        void onClick();
+        void onClick(Long id, ArtworkAdapterViewHolder vh);
     }
 
     public ArtworkAdapter(Context context, ArtworkAdapterOnClickHandler clickHandler, View emptyView){

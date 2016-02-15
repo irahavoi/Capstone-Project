@@ -55,8 +55,11 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         mArtworkAdapter = new ArtworkAdapter(getActivity(), new ArtworkAdapter.ArtworkAdapterOnClickHandler() {
             @Override
-            public void onClick() {
-                //TODO;
+            public void onClick(Long id, ArtworkAdapter.ArtworkAdapterViewHolder vh) {
+                Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
+                detailActivityIntent.putExtra("artworkId", id);
+
+                startActivity(detailActivityIntent);
             }
         }, emptyPlaceholder);
 
