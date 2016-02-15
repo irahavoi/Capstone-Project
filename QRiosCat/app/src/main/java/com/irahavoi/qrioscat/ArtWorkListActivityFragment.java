@@ -155,7 +155,5 @@ public class ArtWorkListActivityFragment extends Fragment {
         Cursor cursor = getActivity().getContentResolver().query(ArtworkProvider.CONTENT_URI, null, null, null, null);
 
         mArtworkAdapter.swapCursor(cursor);
-        //cursor.close();
-
     }
 }
