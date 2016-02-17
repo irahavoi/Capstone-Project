@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.irahavoi.qrioscat.R;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
 import com.irahavoi.qrioscat.domain.Artwork;
+import com.irahavoi.qrioscat.view.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,26 +30,24 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
 
     public class ArtworkAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public Long id;
-        public final ImageView mImageView;
+        public final RoundedImageView mImageView;
         public final TextView mName;
         public final TextView mAuthor;
         public final ImageView mDelete;
 
         public ArtworkAdapterViewHolder(final View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.list_icon);
+            mImageView = (RoundedImageView) itemView.findViewById(R.id.list_icon);
             mName = (TextView) itemView.findViewById(R.id.artwork_name);
             mAuthor = (TextView) itemView.findViewById(R.id.artwork_author);
             mDelete = (ImageView) itemView.findViewById(R.id.delete_artwork);
-
-            final int viewPosition = getAdapterPosition();
 
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mContext.getContentResolver().delete(ArtworkProvider.CONTENT_URI, "_ID = ?", new String[]{String.valueOf(id)});
-                    mArtworks.remove(viewPosition);
-                    notifyItemRemoved(viewPosition);
+                    mArtworks.remove(ArtworkAdapterViewHolder.this.getLayoutPosition());
+                    notifyItemRemoved(ArtworkAdapterViewHolder.this.getLayoutPosition());
                 }
             });
 
