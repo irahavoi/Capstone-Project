@@ -151,22 +151,22 @@ public class ArtWorkListActivityFragment extends Fragment {
         contentValues.put(ArtworkProvider.DESCRIPTION, artwork.getDescription());
         contentValues.put(ArtworkProvider.IMAGE_URL, artwork.getImageUrl());
 
-        Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI, contentValues);
+        Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI_ARTWORK, contentValues);
 
     }
 
     private void getArtworks(){
-        Cursor cursor = getActivity().getContentResolver().query(ArtworkProvider.CONTENT_URI, null, null, null, null);
+        Cursor cursor = getActivity().getContentResolver().query(ArtworkProvider.CONTENT_URI_ARTWORK, null, null, null, null);
 
         List<Artwork> artworks = new ArrayList<>();
 
         while(cursor.moveToNext()){
             Artwork artwork = new Artwork();
-            artwork.setId(cursor.getLong(ArtworkProvider.COL_ID));
-            artwork.setName(cursor.getString(ArtworkProvider.COL_NAME));
-            artwork.setAuthor(cursor.getString(ArtworkProvider.COL_AUTHOR));
-            artwork.setDescription(cursor.getString(ArtworkProvider.COL_DESCRIPTION));
-            artwork.setImageUrl(cursor.getString(ArtworkProvider.COL_IMAGE_URL));
+            artwork.setId(cursor.getLong(ArtworkProvider.COL_ARTWORK_ID));
+            artwork.setName(cursor.getString(ArtworkProvider.COL_ARTWORK_NAME));
+            artwork.setAuthor(cursor.getString(ArtworkProvider.COL_ARTWORK_AUTHOR));
+            artwork.setDescription(cursor.getString(ArtworkProvider.COL_ARTWORK_DESCRIPTION));
+            artwork.setImageUrl(cursor.getString(ArtworkProvider.COL_ARTWORK_IMAGE_URL));
 
             artworks.add(artwork);
         }
