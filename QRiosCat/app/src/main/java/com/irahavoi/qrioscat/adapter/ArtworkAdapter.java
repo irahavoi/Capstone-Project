@@ -41,12 +41,14 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
             mAuthor = (TextView) itemView.findViewById(R.id.artwork_author);
             mDelete = (ImageView) itemView.findViewById(R.id.delete_artwork);
 
+            final int viewPosition = getAdapterPosition();
+
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mContext.getContentResolver().delete(ArtworkProvider.CONTENT_URI, "_ID = ?", new String[]{String.valueOf(id)});
-                    mArtworks.remove(ArtworkAdapterViewHolder.this.getAdapterPosition());
-                    notifyItemRemoved(ArtworkAdapterViewHolder.this.getAdapterPosition());
+                    mArtworks.remove(viewPosition);
+                    notifyItemRemoved(viewPosition);
                 }
             });
 

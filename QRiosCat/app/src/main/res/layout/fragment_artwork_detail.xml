@@ -9,14 +9,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/artwork_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_margin" />
+
         <ImageView
-            android:id="@+id/artworkImage"
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxHeight="300dp"
             android:adjustViewBounds="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/monalisa"
             android:background="@color/background_material_dark" />
 
         <LinearLayout
@@ -48,7 +53,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="This is impressive"
                 android:layout_marginRight="24dp"/>
             <ImageView
                 android:src="@drawable/ic_delete_forever_black_24dp"
@@ -70,7 +74,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="In 1956, part of the painting was damaged when a vandal threw acid at it."
                 android:layout_marginRight="24dp"/>
             <ImageView
                 android:src="@drawable/ic_delete_forever_black_24dp"
@@ -88,8 +91,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_vertical_margin"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"/>
+            android:padding="@dimen/activity_vertical_margin" />
 
 
     </LinearLayout>
