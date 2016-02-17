@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.irahavoi.qrioscat.adapter.ArtworkAdapter;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
+import com.irahavoi.qrioscat.domain.Artwork;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,9 +56,9 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         mArtworkAdapter = new ArtworkAdapter(getActivity(), new ArtworkAdapter.ArtworkAdapterOnClickHandler() {
             @Override
-            public void onClick(Long id, ArtworkAdapter.ArtworkAdapterViewHolder vh) {
+            public void onClick(Artwork artwork, ArtworkAdapter.ArtworkAdapterViewHolder vh) {
                 Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
-                detailActivityIntent.putExtra("artworkId", id);
+                detailActivityIntent.putExtra("artwork", artwork);
 
                 startActivity(detailActivityIntent);
             }
@@ -157,6 +158,19 @@ public class ArtWorkListActivityFragment extends Fragment {
     private void getArtworks(){
         Cursor cursor = getActivity().getContentResolver().query(ArtworkProvider.CONTENT_URI, null, null, null, null);
 
-        mArtworkAdapter.swapCursor(cursor);
+        List<Artwork> artworks = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+            Artwork artwork = new Artwork();
+            artwork.setId(cursor.getLong(ArtworkProvider.COL_ID));
+            artwork.setName(cursor.getString(ArtworkProvider.COL_NAME));
+            artwork.setAuthor(cursor.getString(ArtworkProvider.COL_AUTHOR));
+            artwork.setDescription(cursor.getString(ArtworkProvider.COL_DESCRIPTION));
+            artwork.setImageUrl(cursor.getString(ArtworkProvider.COL_IMAGE_URL));
+
+            artworks.add(artwork);
+        }
+
+        mArtworkAdapter.swapArtworks(artworks);
     }
 }
