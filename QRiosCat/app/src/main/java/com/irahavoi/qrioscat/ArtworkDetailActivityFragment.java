@@ -17,6 +17,7 @@ public class ArtworkDetailActivityFragment extends Fragment {
     private TextView mHeader;
     private TextView mDescriptionText;
     private ImageView mImage;
+    private ImageView mComment;
 
     public ArtworkDetailActivityFragment() {
     }
@@ -39,6 +40,17 @@ public class ArtworkDetailActivityFragment extends Fragment {
 
         Picasso.with(getActivity()).load(mArtwork.getImageUrl())
                 .into(mImage);
+
+
+        mComment = (ImageView) layout.findViewById(R.id.comment_btn);
+        mComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent commentActivityIntent = new Intent(getActivity(), CommentActivityFragment.class);
+                commentActivityIntent.putExtra("artwork", mArtwork);
+                startActivity(commentActivityIntent);
+            }
+        });
 
 
         return layout;

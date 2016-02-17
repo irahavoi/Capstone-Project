@@ -41,6 +41,10 @@
             android:name=".ArtworkDetailActivity"
             android:label="@string/title_activity_artwork_detail" >
         </activity>
+        <activity
+            android:name=".CommentActivity"
+            android:label="@string/title_activity_comment" >
+        </activity>
     </application>
 
 </manifest>
