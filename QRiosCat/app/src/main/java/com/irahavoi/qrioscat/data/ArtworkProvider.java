@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by irahavoi on 2016-02-13.
  */
 public class ArtworkProvider extends ContentProvider {
-    static final String  PROVIDER_NAME = "com.irahavoi.qrioscat.data.ArtworkProvider";
+    public static final String  PROVIDER_NAME = "com.irahavoi.qrioscat.data.ArtworkProvider";
     static final String URL_ARTWORK = "content://" + PROVIDER_NAME + "/artworks";
     static final String URL_ARTWORK_COMMENT = "content://" + PROVIDER_NAME + "/comments";
 
@@ -38,6 +38,8 @@ public class ArtworkProvider extends ContentProvider {
     public static final String DESCRIPTION = "description";
     public static final String IMAGE_URL = "imageUrl";
 
+    public static final String _ARTWORK_ID = "artworkId";
+
     private static Map<String, String> ARTWORKS_PROJECTION_MAP;
 
     static final int ARTWORKS = 1;
@@ -51,8 +53,8 @@ public class ArtworkProvider extends ContentProvider {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME, "artworks", ARTWORKS);
         uriMatcher.addURI(PROVIDER_NAME, "artworks/#", ARTWORK_ID);
-        uriMatcher.addURI(PROVIDER_NAME, "#/comments", COMMENTS);
-        uriMatcher.addURI(PROVIDER_NAME, "#/comments/#", COMMENT_ID);
+        uriMatcher.addURI(PROVIDER_NAME, "artworks/#/comments", COMMENTS);
+        uriMatcher.addURI(PROVIDER_NAME, "artworks/#/comments/#", COMMENT_ID);
     }
 
     private SQLiteDatabase db;
@@ -70,7 +72,7 @@ public class ArtworkProvider extends ContentProvider {
 
     static final String CREATE_DB_TABLE_COMMENTS = "CREATE TABLE " + TABLE_NAME_COMMENTS +
             " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            " artworkId INTEGER NOT NULL" +
+            " artworkId INTEGER NOT NULL," +
             " comment TEXT NOT NULL," +
             " FOREIGN KEY(artworkId) REFERENCES artworks(_id));";
 
@@ -110,21 +112,30 @@ public class ArtworkProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(TABLE_NAME_ARTWORKS);
 
         switch (uriMatcher.match(uri)){
             case ARTWORKS:
+                queryBuilder.setTables(TABLE_NAME_ARTWORKS);
                 queryBuilder.setProjectionMap(ARTWORKS_PROJECTION_MAP);
                 break;
             case  ARTWORK_ID:
+                queryBuilder.setTables(TABLE_NAME_ARTWORKS);
                 queryBuilder.appendWhere(_ID + " = " + uri.getPathSegments().get(1));
+                break;
+            case COMMENTS:
+                queryBuilder.setTables(TABLE_NAME_COMMENTS);
+                queryBuilder.appendWhere(_ARTWORK_ID + " = " + uri.getPathSegments().get(1));
+                break;
+            case COMMENT_ID:
+                queryBuilder.setTables(TABLE_NAME_COMMENTS);
+                queryBuilder.appendWhere(_ARTWORK_ID + " = " + uri.getPathSegments().get(1) + " AND " + _ID + " = " + uri.getPathSegments().get(2));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
         if(sortOrder == null || sortOrder == ""){
-            sortOrder = NAME;
+            sortOrder = _ID;
         }
 
         Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
@@ -146,10 +157,25 @@ public class ArtworkProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         //Add a new artwork record
-        long rowId = db.insert(TABLE_NAME_ARTWORKS, "", contentValues);
+
+
+        long rowId = -1;
+        Uri _uri;
+        switch (uriMatcher.match(uri)){
+            case ARTWORKS:
+                rowId = db.insert(TABLE_NAME_ARTWORKS, "", contentValues);
+                _uri = ContentUris.withAppendedId(CONTENT_URI_ARTWORK, rowId);
+                break;
+            case COMMENTS:
+                rowId = db.insert(TABLE_NAME_COMMENTS, "", contentValues);
+                _uri = ContentUris.withAppendedId(CONTENT_URI_COMMENT, rowId);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown uri: " + uri);
+
+        }
 
         if(rowId > 0){
-            Uri _uri = ContentUris.withAppendedId(CONTENT_URI_ARTWORK, rowId);
             getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         }
@@ -168,6 +194,16 @@ public class ArtworkProvider extends ContentProvider {
                 String id = uri.getPathSegments().get(1);
                 count = db.delete(TABLE_NAME_ARTWORKS, _ID + " = " + id +
                         (!TextUtils.isEmpty(selection)? " AND (" + selection + ")" : ""), selectionArgs);
+                break;
+            case COMMENTS:
+                count = db.delete(TABLE_NAME_COMMENTS, selection, selectionArgs);
+                break;
+            case COMMENT_ID:
+                String artworkId = uri.getPathSegments().get(1);
+                String commentId = uri.getPathSegments().get(2);
+                count = db.delete(TABLE_NAME_COMMENTS, _ID  + " = " + commentId +
+                    " AND " + _ARTWORK_ID + " = " + artworkId
+                    + (!TextUtils.isEmpty(selection)? " AND (" + selection + ")" : ""), selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -189,6 +225,16 @@ public class ArtworkProvider extends ContentProvider {
             case ARTWORK_ID:
                 count = db.update(TABLE_NAME_ARTWORKS, contentValues, _ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection)? " AND (" + selection + ")" : ""), selectionArgs);
+                break;
+            case COMMENTS:
+                count = db.update(TABLE_NAME_COMMENTS, contentValues, _ARTWORK_ID + " = " +  uri.getPathSegments().get(1) + selection, selectionArgs);
+                break;
+            case COMMENT_ID:
+                count = db.update(TABLE_NAME_ARTWORKS, contentValues, _ID + " = " + uri.getPathSegments().get(1) +
+                        _ARTWORK_ID + " = " +  uri.getPathSegments().get(2) +
+                        (!TextUtils.isEmpty(selection)? " AND (" + selection + ")" : ""), selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }

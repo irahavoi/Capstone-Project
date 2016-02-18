@@ -23,4 +23,6 @@
     <string name="title_activity_qr_capture">Capture QR Code</string>
     <string name="title_activity_artwork_detail">ArtworkDetailActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
+
+    <string name="add_comment">Add a comment..</string>
 </resources>

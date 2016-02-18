@@ -46,7 +46,7 @@ public class ArtworkDetailActivityFragment extends Fragment {
         mComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent commentActivityIntent = new Intent(getActivity(), CommentActivityFragment.class);
+                Intent commentActivityIntent = new Intent(getActivity(), CommentActivity.class);
                 commentActivityIntent.putExtra("artwork", mArtwork);
                 startActivity(commentActivityIntent);
             }
