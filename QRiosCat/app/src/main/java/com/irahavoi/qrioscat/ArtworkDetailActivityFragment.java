@@ -8,9 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.irahavoi.qrioscat.adapter.CommentAdapter;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
 import com.irahavoi.qrioscat.domain.Artwork;
 import com.irahavoi.qrioscat.domain.Comment;
@@ -63,6 +67,16 @@ public class ArtworkDetailActivityFragment extends Fragment {
 
 
         mComments = getComments();
+
+        ListView commentsListView = (ListView) layout.findViewById(R.id.comment_listview);
+        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), mComments);
+        commentsListView.setAdapter(commentAdapter);
+        commentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity(), "TODO:", Toast.LENGTH_LONG);
+            }
+        });
 
 
         return layout;

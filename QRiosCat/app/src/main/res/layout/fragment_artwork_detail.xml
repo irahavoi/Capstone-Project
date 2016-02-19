@@ -44,48 +44,10 @@
             android:layout_height="1dip" />
 
 
-        <!-- Mock Comments -->
-        <RelativeLayout
+        <ListView
+            android:id="@+id/comment_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/activity_vertical_margin">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"/>
-            <ImageView
-                android:src="@drawable/ic_delete_forever_black_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:alpha="0.3"/>
-        </RelativeLayout>
-        <View
-            style="@style/separator"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/activity_vertical_margin">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"/>
-            <ImageView
-                android:src="@drawable/ic_delete_forever_black_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:alpha="0.3"/>
-        </RelativeLayout>
-        <View
-            style="@style/separator"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip" />
+            android:layout_height="wrap_content"></ListView>
 
         <TextView
             android:id="@+id/description"
