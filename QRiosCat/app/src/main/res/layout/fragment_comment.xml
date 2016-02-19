@@ -21,7 +21,8 @@
             android:id="@+id/post_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_black_36dp"/>
+            android:src="@drawable/ic_send_black_36dp"
+            android:paddingLeft="@dimen/activity_vertical_margin"/>
     </LinearLayout>
 
 </RelativeLayout>

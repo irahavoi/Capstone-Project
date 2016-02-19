@@ -15,9 +15,6 @@ import android.text.TextUtils;
 
 import java.util.Map;
 
-/**
- * Created by irahavoi on 2016-02-13.
- */
 public class ArtworkProvider extends ContentProvider {
     public static final String  PROVIDER_NAME = "com.irahavoi.qrioscat.data.ArtworkProvider";
     static final String URL_ARTWORK = "content://" + PROVIDER_NAME + "/artworks";
@@ -26,11 +23,16 @@ public class ArtworkProvider extends ContentProvider {
     public static final Uri CONTENT_URI_ARTWORK = Uri.parse(URL_ARTWORK);
     public static final Uri CONTENT_URI_COMMENT = Uri.parse(URL_ARTWORK_COMMENT);
 
-    public static final int COL_ARTWORK_ID = 0;
+    public static final int COL_ID = 0;
     public static final int COL_ARTWORK_NAME = 1;
     public static final int COL_ARTWORK_AUTHOR = 2;
     public static final int COL_ARTWORK_DESCRIPTION = 3;
     public static final int COL_ARTWORK_IMAGE_URL = 4;
+
+    public static final int COL_ARTWORK_ID = 1;
+    public static final int COL_COMMENT = 2;
+
+
 
     public static final String _ID = "_id";
     public static final String NAME = "name";
@@ -39,6 +41,7 @@ public class ArtworkProvider extends ContentProvider {
     public static final String IMAGE_URL = "imageUrl";
 
     public static final String _ARTWORK_ID = "artworkId";
+    public static final String COMMENT = "comment";
 
     private static Map<String, String> ARTWORKS_PROJECTION_MAP;
 
