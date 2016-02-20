@@ -1,6 +1,9 @@
 package com.irahavoi.qrioscat;
 
+import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 
 import com.irahavoi.qrioscat.data.ArtworkProvider;
 import com.irahavoi.qrioscat.domain.Artwork;
+import com.irahavoi.qrioscat.domain.Comment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -53,13 +57,23 @@ public class CommentActivityFragment extends Fragment {
                         .appendPath("comments")
                         .build();
 
-                ContentValues values = new ContentValues();
-                values.put(ArtworkProvider._ARTWORK_ID, mArtwork.getId());
-                values.put(ArtworkProvider.COMMENT, mComment.getText().toString());
+                Comment comment = new Comment();
+                comment.setArtworkId(mArtwork.getId());
+                comment.setComment(mComment.getText().toString());
 
-                getActivity().getContentResolver()
+                ContentValues values = new ContentValues();
+                values.put(ArtworkProvider._ARTWORK_ID, comment.getArtworkId());
+                values.put(ArtworkProvider.COMMENT, comment.getComment());
+
+                Uri result = getActivity().getContentResolver()
                         .insert(uri, values);
 
+                comment.setId(ContentUris.parseId(result));
+
+                Intent intent = new Intent();
+                intent.putExtra("comment", comment);
+
+                getActivity().setResult(Activity.RESULT_OK, intent);
                 CommentActivityFragment.this.getActivity().finish();
             }
         });

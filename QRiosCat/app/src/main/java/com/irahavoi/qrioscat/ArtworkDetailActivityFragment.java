@@ -1,5 +1,6 @@
 package com.irahavoi.qrioscat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,11 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.irahavoi.qrioscat.adapter.CommentAdapter;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
@@ -29,6 +28,8 @@ public class ArtworkDetailActivityFragment extends Fragment {
     private TextView mDescriptionText;
     private ImageView mImage;
     private ImageView mComment;
+    private CommentAdapter mCommentAdapter;
+    private ListView mCommentsListView;
 
     List<Comment> mComments;
 
@@ -61,25 +62,30 @@ public class ArtworkDetailActivityFragment extends Fragment {
             public void onClick(View view) {
                 Intent commentActivityIntent = new Intent(getActivity(), CommentActivity.class);
                 commentActivityIntent.putExtra("artwork", mArtwork);
-                startActivity(commentActivityIntent);
+                startActivityForResult(commentActivityIntent, 1);
             }
         });
 
 
         mComments = getComments();
 
-        ListView commentsListView = (ListView) layout.findViewById(R.id.comment_listview);
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), mComments);
-        commentsListView.setAdapter(commentAdapter);
-        commentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), "TODO:", Toast.LENGTH_LONG);
-            }
-        });
-
+        mCommentsListView = (ListView) layout.findViewById(R.id.comment_listview);
+        mCommentAdapter = new CommentAdapter(getActivity(), mComments);
+        mCommentsListView.setAdapter(mCommentAdapter);
+        Utility.setListViewHeightBasedOnChildren(mCommentsListView);
 
         return layout;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK){
+            Comment comment = data.getParcelableExtra("comment");
+            mCommentAdapter.add(comment);
+            mCommentAdapter.notifyDataSetChanged();
+            Utility.setListViewHeightBasedOnChildren(mCommentsListView);
+
+        }
     }
 
     private List<Comment> getComments(){
