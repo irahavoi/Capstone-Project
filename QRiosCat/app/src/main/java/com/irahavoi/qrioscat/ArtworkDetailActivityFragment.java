@@ -24,7 +24,6 @@ import java.util.List;
 
 public class ArtworkDetailActivityFragment extends Fragment {
     private Artwork mArtwork;
-    private TextView mHeader;
     private TextView mDescriptionText;
     private ImageView mImage;
     private ImageView mComment;
@@ -44,7 +43,6 @@ public class ArtworkDetailActivityFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_artwork_detail, container, false);
 
-        mHeader = (TextView) layout.findViewById(R.id.artwork_header);
         mDescriptionText = (TextView) layout.findViewById(R.id.description);
         mImage = (ImageView) layout.findViewById(R.id.image);
 
