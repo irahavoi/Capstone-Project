@@ -16,6 +16,7 @@
 
         <com.irahavoi.qrioscat.view.RoundedImageView
             android:id="@+id/list_icon"
+            android:transitionName="@string/artworkImageTransition"
             android:layout_gravity="center"
             android:layout_width="80dp"
             android:layout_height="80dp"

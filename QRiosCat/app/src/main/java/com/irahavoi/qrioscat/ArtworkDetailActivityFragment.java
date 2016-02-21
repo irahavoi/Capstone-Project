@@ -39,7 +39,6 @@ public class ArtworkDetailActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         Intent intent = getActivity().getIntent();
         mArtwork = intent.getParcelableExtra("artwork");
 
@@ -50,7 +49,7 @@ public class ArtworkDetailActivityFragment extends Fragment {
         mImage = (ImageView) layout.findViewById(R.id.image);
 
         mDescriptionText.setText(mArtwork.getDescription());
-        mHeader.setText(mArtwork.getName() + ", " + mArtwork.getAuthor());
+        getActivity().setTitle(mArtwork.getName() + ", " + mArtwork.getAuthor());
 
         Picasso.with(getActivity()).load(mArtwork.getImageUrl())
                 .into(mImage);
@@ -62,6 +61,7 @@ public class ArtworkDetailActivityFragment extends Fragment {
             public void onClick(View view) {
                 Intent commentActivityIntent = new Intent(getActivity(), CommentActivity.class);
                 commentActivityIntent.putExtra("artwork", mArtwork);
+
                 startActivityForResult(commentActivityIntent, 1);
             }
         });

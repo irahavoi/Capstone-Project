@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,7 +61,11 @@ public class ArtWorkListActivityFragment extends Fragment {
                 Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
                 detailActivityIntent.putExtra("artwork", artwork);
 
-                startActivity(detailActivityIntent);
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), vh.mImageView, vh.mImageView.getTransitionName());
+
+
+                startActivity(detailActivityIntent, options.toBundle());
             }
         }, emptyPlaceholder);
 
@@ -76,6 +81,7 @@ public class ArtWorkListActivityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent captureBarcode = new Intent(getActivity(), BarcodeCaptureActivity.class);
+
                 startActivityForResult(captureBarcode, BarcodeCaptureActivity.CAPTURE_BARCODE_REQUEST);
             }
         });
