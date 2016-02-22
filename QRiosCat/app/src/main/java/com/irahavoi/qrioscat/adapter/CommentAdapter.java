@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,9 +40,16 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 
         ImageView delete = (ImageView) rootView.findViewById(R.id.delete_comment);
 
-        delete.setOnClickListener(new View.OnClickListener() {
+        final Animation animation = AnimationUtils.loadAnimation(CommentAdapter.this.context, R.anim.slide_out);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View view) {
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 Uri.Builder builder = new Uri.Builder();
                 Uri uri = builder.scheme("content")
                         .authority(ArtworkProvider.PROVIDER_NAME)
@@ -55,6 +64,13 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 
                 CommentAdapter.this.remove(values.get(position));
                 Utility.setListViewHeightBasedOnChildren((ListView) parent);
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((View)view.getParent()).startAnimation(animation);
             }
         });
 

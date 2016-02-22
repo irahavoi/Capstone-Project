@@ -1,6 +1,7 @@
 package com.irahavoi.qrioscat;
 
 import android.app.Fragment;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -130,8 +131,14 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Artwork> artworks){
-            Toast.makeText(getActivity(), artworks.get(0).getName(), Toast.LENGTH_LONG).show();
-            getArtworks();
+            Artwork artwork = artworks.get(0);
+            Toast.makeText(getActivity(), artwork.getName(), Toast.LENGTH_LONG).show();
+            mArtworkAdapter.getArtworks().addAll(artworks);
+            mArtworkAdapter.notifyDataSetChanged();
+
+            /*Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
+            detailActivityIntent.putExtra("artwork", artwork);
+            startActivity(detailActivityIntent);*/
         }
 
         @Override
@@ -164,6 +171,7 @@ public class ArtWorkListActivityFragment extends Fragment {
         contentValues.put(ArtworkProvider.IMAGE_URL, artwork.getImageUrl());
 
         Uri uri = getActivity().getContentResolver().insert(ArtworkProvider.CONTENT_URI_ARTWORK, contentValues);
+        artwork.setId(ContentUris.parseId(uri));
 
     }
 
@@ -174,7 +182,7 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         while(cursor.moveToNext()){
             Artwork artwork = new Artwork();
-            artwork.setId(cursor.getLong(ArtworkProvider.COL_ARTWORK_ID));
+            artwork.setId(cursor.getLong(ArtworkProvider.COL_ID));
             artwork.setName(cursor.getString(ArtworkProvider.COL_ARTWORK_NAME));
             artwork.setAuthor(cursor.getString(ArtworkProvider.COL_ARTWORK_AUTHOR));
             artwork.setDescription(cursor.getString(ArtworkProvider.COL_ARTWORK_DESCRIPTION));

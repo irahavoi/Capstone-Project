@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.irahavoi.qrioscat.data.ArtworkProvider;
 import com.irahavoi.qrioscat.domain.Artwork;
 import com.irahavoi.qrioscat.domain.Comment;
@@ -21,6 +23,7 @@ import com.irahavoi.qrioscat.domain.Comment;
  * A placeholder fragment containing a simple view.
  */
 public class CommentActivityFragment extends Fragment {
+    private AdView mAdview;
     private EditText mComment;
     private ImageView mPostComment;
     private Artwork mArtwork;
@@ -34,7 +37,15 @@ public class CommentActivityFragment extends Fragment {
 
         mArtwork = getActivity().getIntent().getParcelableExtra("artwork");
 
+        getActivity().setTitle(getString(R.string.comment_on) + " " + mArtwork.getName());
+
         View layout = inflater.inflate(R.layout.fragment_comment, container, false);
+
+        mAdview = (AdView) layout.findViewById(R.id.adview);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mAdview.loadAd(adRequest);
 
         mComment =  (EditText) layout.findViewById(R.id.comment);
         mComment.requestFocus();
