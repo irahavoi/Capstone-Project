@@ -48,6 +48,7 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
                     mContext.getContentResolver().delete(ArtworkProvider.CONTENT_URI_ARTWORK, "_ID = ?", new String[]{String.valueOf(id)});
                     mArtworks.remove(ArtworkAdapterViewHolder.this.getLayoutPosition());
                     notifyItemRemoved(ArtworkAdapterViewHolder.this.getLayoutPosition());
+                    swapArtworks(mArtworks);
                 }
             });
 

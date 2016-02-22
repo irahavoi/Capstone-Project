@@ -134,11 +134,13 @@ public class ArtWorkListActivityFragment extends Fragment {
             Artwork artwork = artworks.get(0);
             Toast.makeText(getActivity(), artwork.getName(), Toast.LENGTH_LONG).show();
             mArtworkAdapter.getArtworks().addAll(artworks);
-            mArtworkAdapter.notifyDataSetChanged();
+            mArtworkAdapter.swapArtworks(mArtworkAdapter.getArtworks());
 
-            /*Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
+
+
+            Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
             detailActivityIntent.putExtra("artwork", artwork);
-            startActivity(detailActivityIntent);*/
+            startActivity(detailActivityIntent);
         }
 
         @Override
