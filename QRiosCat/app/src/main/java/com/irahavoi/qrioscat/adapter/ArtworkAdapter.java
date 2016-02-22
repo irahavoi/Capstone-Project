@@ -94,7 +94,9 @@ public class ArtworkAdapter extends RecyclerView.Adapter<ArtworkAdapter.ArtworkA
         artworkAdapterViewHolder.mAuthor.setText(artwork.getAuthor());
         artworkAdapterViewHolder.mName.setText(artwork.getName());
 
-        Picasso.with(mContext).load(artwork.getImageUrl())
+        Picasso.with(mContext)
+                .load(artwork.getImageUrl())
+                .placeholder(R.drawable.qrioscat_negative)
                 .into(artworkAdapterViewHolder.mImageView);
 
     }
