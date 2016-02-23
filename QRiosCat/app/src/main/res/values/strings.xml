@@ -29,6 +29,9 @@
     <string name="comment_on">Comment on</string>
     <string name="artworkImageTransition">ArtworkImageTransition</string>
 
+    <!--Widget-->
+    <string name="last_exhibit">Last exhibit:</string>
+    <string name="none">None</string>
 
     <!-- Errors -->
     <string name="error_contacting_server">Error occurred when trying to contact the server</string>
