@@ -17,13 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dip"
-            android:text="Last exhibit:" />
+            android:text="@string/last_exhibit" />
 
         <TextView
             android:id="@+id/widget_artwork_name"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dip" />
+            android:layout_margin="4dip"
+            android:text="@string/none"/>
     </LinearLayout>
 </LinearLayout>
