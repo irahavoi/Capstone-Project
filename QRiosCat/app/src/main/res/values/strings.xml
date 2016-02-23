@@ -28,4 +28,9 @@
     <string name="add_comment">Add a comment..</string>
     <string name="comment_on">Comment on</string>
     <string name="artworkImageTransition">ArtworkImageTransition</string>
+
+
+    <!-- Errors -->
+    <string name="error_contacting_server">Error occurred when trying to contact the server</string>
+    <string name="error_artwork_not_found_invalid_qr">Invalid QR-code!</string>
 </resources>

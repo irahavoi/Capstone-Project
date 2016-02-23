@@ -131,16 +131,20 @@ public class ArtWorkListActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Artwork> artworks){
-            Artwork artwork = artworks.get(0);
-            Toast.makeText(getActivity(), artwork.getName(), Toast.LENGTH_LONG).show();
-            mArtworkAdapter.getArtworks().addAll(artworks);
-            mArtworkAdapter.swapArtworks(mArtworkAdapter.getArtworks());
+            if(!artworks.isEmpty()){
+                Artwork artwork = artworks.get(0);
+                Toast.makeText(getActivity(), artwork.getName(), Toast.LENGTH_LONG).show();
+                mArtworkAdapter.getArtworks().addAll(artworks);
+                mArtworkAdapter.swapArtworks(mArtworkAdapter.getArtworks());
 
 
 
-            Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
-            detailActivityIntent.putExtra("artwork", artwork);
-            startActivity(detailActivityIntent);
+                Intent detailActivityIntent = new Intent(getActivity(), ArtworkDetailActivity.class);
+                detailActivityIntent.putExtra("artwork", artwork);
+                startActivity(detailActivityIntent);
+            } else{
+                Toast.makeText(getActivity(), getString(R.string.error_artwork_not_found_invalid_qr), Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override
@@ -152,11 +156,14 @@ public class ArtWorkListActivityFragment extends Fragment {
 
                 try{
                     Artwork artwork = call.execute().body();
-                    saveArtwork(artwork);
-                    artworks.add(artwork);
+
+                    if(artwork != null){
+                        saveArtwork(artwork);
+                        artworks.add(artwork);
+                    }
 
                 } catch (IOException e){
-                    Toast.makeText(getActivity(), "Error occurred when trying to contact the server", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_contacting_server), Toast.LENGTH_LONG).show();
                 }
             }
 
